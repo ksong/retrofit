@@ -1,25 +1,25 @@
-language: java
-
-jdk:
-  - oraclejdk8
-
 after_success:
-  - .buildscript/deploy_snapshot.sh
-
-env:
-  global:
-    - secure: "M0bjPTMwinz0uXN6qjXcpyfvhz/YX9W7ty4RdV90jMU8ZJxSdGdKXRy1N0TsMO8ciOQ2fryE/FpiX+arrphnVvqUmGBh386lGvj1rhgrVqXNqlGE23cQpzHsQ0nNqTGIxnoE4dmJF3PjWoYG+B4WbFsSb3PB7sEjpLq7klqGeHk="
-    - secure: "iL5BdYAmMaEDRKxNx1d9Zxn0tfJhCzXBGUvn+p7QGeQDUSVCdCc8cXS4ePbRj0401pK20nK1OouIi0lLP+z0QpZY6RrKIEncGOZeSFPQbS/vnZ7niCYJQdXCZ/GOlYUkAW2AsQl5bzzHYbHKX/TVgTuO3iFlbyeoZZuIjD3VaiM="
-
+- .buildscript/deploy_snapshot.sh
 branches:
   except:
-    - gh-pages
-
-notifications:
-  email: false
-
-sudo: false
-
+  - gh-pages
 cache:
   directories:
-    - $HOME/.m2
+  - $HOME/.m2
+env:
+  global:
+  - secure: M0bjPTMwinz0uXN6qjXcpyfvhz/YX9W7ty4RdV90jMU8ZJxSdGdKXRy1N0TsMO8ciOQ2fryE/FpiX+arrphnVvqUmGBh386lGvj1rhgrVqXNqlGE23cQpzHsQ0nNqTGIxnoE4dmJF3PjWoYG+B4WbFsSb3PB7sEjpLq7klqGeHk=
+  - secure: iL5BdYAmMaEDRKxNx1d9Zxn0tfJhCzXBGUvn+p7QGeQDUSVCdCc8cXS4ePbRj0401pK20nK1OouIi0lLP+z0QpZY6RrKIEncGOZeSFPQbS/vnZ7niCYJQdXCZ/GOlYUkAW2AsQl5bzzHYbHKX/TVgTuO3iFlbyeoZZuIjD3VaiM=
+jdk:
+- oraclejdk8
+language: java
+script:
+- touch NOW
+- echo GIBSTUDYSTART $(date)
+- mvn test -B
+- echo GIBSTUDYEND $(date)
+- cd $TRAVIS_BUILD_DIR
+- if [ "$TRAVIS_OS_NAME" == "osx" ];        then echo TESTNUM $(find . -name TEST-*.xml
+  -newer NOW | wc -l);        else echo TESTNUM $(find -name TEST-*.xml -newer NOW
+  | wc -l);        fi
+sudo: false
